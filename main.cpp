@@ -61,7 +61,6 @@ private:
         }
     }
 
-
 public:
     //Init matrix place
     Map(long long width=10, long long height=10, char _background=' ')
@@ -73,15 +72,30 @@ public:
         initPlace();
     }
 
-    //Border function
+    //Border methods
     void setBorder(char symbol='*'){setBorder(0, symbol);} //Set border for place
     void topBorder(char symbol='*'){setBorder(1, symbol);} //Set border top for place
     void leftBorder(char symbol='*'){setBorder(2, symbol);} //Set border left for place
     void bottomBorder(char symbol='*'){setBorder(3, symbol);} //Set border bottom for place
     void rigthBorder(char symbol='*'){setBorder(4, symbol);} //Set border right for place
 
+    //Getter methods
     TMapSize getSize(){return _size;} //Return matrix size
-    TMatrix getMatrix(){return matrix;} //Return matrix
+    TMatrix getMatrix() //Return matrix
+    {
+        TMatrix copy_matrix;
+        char **p = new char* [_size.height];
+
+        for (int row=0; row<_size.height; row++)
+        {
+            p[row] = new char [_size.width+1];
+            for (int col=0; col<_size.width+1; col++) p[row][col] = matrix.place[row][col];
+
+        }
+        copy_matrix.place = p;
+
+        return copy_matrix;
+    }
 
     void setPoint(int x, int y, char symbol)
     {
@@ -163,15 +177,14 @@ public:
 
     void showMatrix(TMatrix _matrix, TMapSize _size)
     {
-        for (int row=0; row<_size.height; row++)
-        {
-            cout << _matrix.place[row] << endl;
-        }
+        for (int row=0; row<_size.height; row++) cout << _matrix.place[row] << endl;
     }
 };
 
 int main()
 {
+    //Testing
+
     Map world1(10, 5, ' ');
     Console console;
 
